@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>admin center</title>
+  <style>
+  </style>
+</head>
+<body>
+	当前在线人数：
+
+<br>
+
+<div class="connect">
+  <div class="top">
+    <input id="connectId" type="text" placeholder="请输入连接ID">
+    <button id="btn">连接</button>
+  </div>
+  <div class="content">
+    <ul id="messages">
+
+    </ul>
+  </div>
+</div>
+<script>
+  var ws = new WebSocket("ws://10.88.32.143:8093/");
+  ws.onerror = function (event) {
+    console.error(event);
+  };
+  ws.onclose = function () {
+    console.log("websocket closed...");
+  };
+  var btn = document.getElementById("btn");
+  var connectInput = document.getElementById("connectId");
+  btn.onclick = function () {
+    var connectId = connectInput.value;
+    if (connectId) {
+      var packet = {
+        "type": 1, "data": connectId
+      };
+      ws.send(JSON.stringify(packet));
+    }
+  };
+  var messages = document.getElementById("messages");
+  ws.onmessage = function (event) {
+    append(event.data);
+  };
+  function append(msg) {
+    var li = document.createElement("li");
+    li.innerHTML = msg;
+    messages.appendChild(li);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+server:
+  port: 8300
+  
+spring:
+  rabbitmq:
+    host: 10.88.67.114
+    port: 5672
+    username: jacklin
+    password: jacklin
+    publisher-confirms: true
+    broadcast:
+      exchange_name: broadExchange
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://10.88.68.16:1111/eureka/
+
+hystrix:  # feign请求超时熔断时间
+  command: 
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+      
